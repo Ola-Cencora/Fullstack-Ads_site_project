@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const path = requre('path');
+const path = require('path');
 const mongoose = require('mongoose');
+const connectToDB = require('./db');
 
 // start express server
 const app = express();
@@ -10,7 +11,7 @@ const server = app.listen(process.env.PORT || 8000, () => {
 });
 
 // connect to data base
-// ...
+connectToDB();
 
 // add middleware
 app.use(cors());
@@ -18,8 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // serve static files from the React app
-//app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '/client/build')));
+//app.use(express.static(path.join(__dirname, '/public')));
 
 // import routes
 // ...
