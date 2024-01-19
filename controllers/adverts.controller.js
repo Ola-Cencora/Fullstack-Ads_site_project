@@ -3,8 +3,7 @@ const sanitize = require("mongo-sanitize");
 
 exports.getAll = async (req, res) => {
   try {
-    //const adverts = await Advert.find().populate("user");
-    const adverts = await Advert.find();
+    const adverts = await Advert.find().populate("user");
     res.json(adverts);
   } catch (err) {
     res.status(500).send({ message: err });
@@ -13,8 +12,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    //const adv = await Advert.findById(req.params.id).populate("user");
-    const adv = await Advert.findById(req.params.id);
+    const adv = await Advert.findById(req.params.id).populate("user");
     if (!adv) res.status(404).send({ message: "Not found" });
     else res.json(adv);
   } catch (err) {
@@ -68,6 +66,7 @@ exports.postNewAdv = async (req, res) => {
         res.send({ message: "OK", newAdvert });
       } else {
         res.status(400).send({ message: "Wrong input!" });
+        a;
       }
     }
   } catch (err) {
@@ -88,9 +87,8 @@ exports.deleteById = async (req, res) => {
 };
 
 exports.edit = async (req, res) => {
-  const { title, text, date, img, price, location, user } = req.body;
-
   try {
+    const { title, text, date, img, price, location, user } = req.body;
     const adv = await Advert.findById(req.params.id);
     if (adv) {
       if (title && text && date && price && location && user && img) {
@@ -106,7 +104,7 @@ exports.edit = async (req, res) => {
         ) {
           return res.status(400).send({ message: "Wrong input!" });
         }
-        
+
         const imgExt = img.split(".").slice(-1)[0];
         if (
           (imgExt === "gif" || imgExt === "jpg" || imgExt === "png") &&

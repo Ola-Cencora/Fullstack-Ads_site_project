@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const connectToDB = require('./db');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 // start express server
 const app = express();
@@ -17,6 +19,7 @@ connectToDB();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(session({ secret: process.env.sessionSecret, store: MongoStore.create(mongoose.connection), resave: false, saveUninitialized: false }));
 
 // serve static files from the React app
 //app.use(express.static(path.join(__dirname, '/client/build')));
