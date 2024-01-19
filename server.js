@@ -4,8 +4,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 const connectToDB = require('./db');
 
-const advertsRoutes = require('./routes/adverts.routes');
-
 // start express server
 const app = express();
 const server = app.listen(process.env.PORT || 8000, () => {
@@ -25,10 +23,11 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(express.static(path.join(__dirname, '/public')));
 
 // import routes
-app.use('/api', advertsRoutes);
+app.use('/api', require('./routes/adverts.routes'));
+app.use('/auth', require('./routes/auth.routes'));
 
 /*app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/client/build/index.html'));
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });*/
 
 app.use((req, res) => {

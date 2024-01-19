@@ -7,7 +7,7 @@ exports.getAll = async (req, res) => {
     const adverts = await Advert.find();
     res.json(adverts);
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).send({ message: err });
   }
 };
 
@@ -15,10 +15,10 @@ exports.getById = async (req, res) => {
   try {
     //const adv = await Advert.findById(req.params.id).populate("user");
     const adv = await Advert.findById(req.params.id);
-    if (!adv) res.status(404).json({ message: "Not found" });
+    if (!adv) res.status(404).send({ message: "Not found" });
     else res.json(adv);
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).send({ message: err });
   }
 };
 
@@ -37,7 +37,7 @@ exports.postNewAdv = async (req, res) => {
         !user.match(stringPattern) ||
         !date.match(datePattern)
       ) {
-        res.status(400).json({ message: "Wrong input!" });
+        return res.status(400).send({ message: "Wrong input!" });
       }
 
       const imgExt = img.split(".").slice(-1)[0];
@@ -65,13 +65,13 @@ exports.postNewAdv = async (req, res) => {
           user: userClean,
         });
         await newAdvert.save();
-        res.json({ message: "OK", newAdvert });
+        res.send({ message: "OK", newAdvert });
       } else {
-        res.json({ message: "Wrong input!" });
+        res.status(400).send({ message: "Wrong input!" });
       }
     }
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).send({ message: err });
   }
 };
 
@@ -80,10 +80,10 @@ exports.deleteById = async (req, res) => {
     const adv = await Advert.findById(req.params.id);
     if (adv) {
       await Advert.deleteOne({ _id: req.params.id });
-      res.json({ message: "OK", adv });
-    } else res.status(404).json({ message: "Not found..." });
+      res.send({ message: "OK", adv });
+    } else res.status(404).send({ message: "Not found..." });
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).send({ message: err });
   }
 };
 
@@ -104,7 +104,7 @@ exports.edit = async (req, res) => {
           !user.match(stringPattern) ||
           !date.match(datePattern)
         ) {
-          res.status(400).json({ message: "Wrong input!" });
+          return res.status(400).send({ message: "Wrong input!" });
         }
         
         const imgExt = img.split(".").slice(-1)[0];
@@ -130,12 +130,12 @@ exports.edit = async (req, res) => {
             (adv.location = locationClean),
             (adv.user = userClean);
           await adv.save();
-          res.json({ message: "OK", adv });
-        } else res.status(404).json({ message: "Wrong input!" });
+          res.send({ message: "OK", adv });
+        } else res.status(400).send({ message: "Wrong input!" });
       }
-    } else res.status(404).json({ message: "Not found" });
+    } else res.status(404).send({ message: "Not found" });
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).send({ message: err });
   }
 };
 
@@ -146,9 +146,9 @@ exports.search = async (req, res) => {
     const adverts = await Advert.find({ title: regex });
 
     if (!adverts || adverts.length === 0)
-      res.status(404).json({ message: "Not found" });
+      res.status(404).send({ message: "Not found" });
     else res.json(adverts);
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).send({ message: err });
   }
 };
