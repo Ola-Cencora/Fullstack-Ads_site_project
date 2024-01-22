@@ -94,16 +94,7 @@ exports.edit = async (req, res) => {
 
     const adv = await Advert.findById(req.params.id);
     if (adv) {
-      if (
-        title &&
-        text &&
-        date &&
-        price &&
-        location &&
-        user &&
-        req.file &&
-        ["image/png", "image/jpeg", "image/gif"].includes(fileType)
-      ) {
+      if (title && text && date && price && location && user) {
         const stringPattern = new RegExp(/^[a-zA-Z0-9.,! ]+$/);
         const datePattern = new RegExp(/^\d{4}-\d{2}-\d{2}$/);
 
@@ -133,10 +124,21 @@ exports.edit = async (req, res) => {
           (adv.title = titleClean),
           (adv.text = textClean),
           (adv.date = dateClean),
-          (adv.img = req.file.filename),
           (adv.price = priceClean),
           (adv.location = locationClean),
           (adv.user = userClean);
+
+          if (
+            req.file &&
+            ["image/png", "image/jpeg", "image/gif"].includes(fileType)
+          ) {
+            if (adv.img) {
+              fs.unlinkSync(`public/uploads/${adv.img}`);
+            } else {
+              adv.img = req.file.filename;
+            }
+          }
+
           await adv.save();
           res.send({ message: "OK", adv });
         }
