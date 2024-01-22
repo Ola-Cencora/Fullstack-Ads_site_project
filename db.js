@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const connectToDB = () => {
 
   // connect to DB
-  mongoose.connect('mongodb://0.0.0.0:27017/MessageBoardDB', { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.connect('mongodb://0.0.0.0:27017/MessageBoardDB', {});
   const db = mongoose.connection;
 
   // on success
