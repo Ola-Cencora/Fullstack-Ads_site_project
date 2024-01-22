@@ -1,4 +1,5 @@
 const User = require("../models/User.model");
+const Session = require("../models/Session.model");
 const bcrypt = require("bcryptjs");
 
 exports.register = async (req, res) => {
@@ -70,5 +71,28 @@ exports.getUser = async (req, res) => {
     if (user) res.status(200).json(user);
   } catch (err) {
     res.status(500).send({ message: err });
+  }
+};
+
+exports.logout = async (req, res) => {
+  if (process.env.NODE_ENV !== "production") {
+    try {
+      await Session.deleteMany({});
+      res.status(200).send({ message: "Logout successful" });
+    } catch (err) {
+      res.status(401).send({ message: err });
+    }
+  } else {
+    if (req.session) {
+      req.session.destroy((err) => {
+        if (err) {
+          res.status(500).send({ message: "Error during logout" });
+        } else {
+          res.status(200).send({ message: "Logout successful" });
+        }
+      });
+    } else {
+      res.status(401).send({ message: "You are not logged in" });
+    }
   }
 };
