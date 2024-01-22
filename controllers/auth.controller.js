@@ -2,11 +2,12 @@ const User = require("../models/User.model");
 const Session = require("../models/Session.model");
 const bcrypt = require("bcryptjs");
 const getImageFileType = require("../utils/getImageFileType");
+const fs = require("fs");
 
 exports.register = async (req, res) => {
   try {
     const { login, password, phone } = req.body;
-    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+    const fileType = req.file ? await getImageFileType(req.file) : "unknown";
 
     if (
       login &&
@@ -14,11 +15,12 @@ exports.register = async (req, res) => {
       password &&
       typeof password === "string" &&
       req.file &&
-      ['image/png', 'image/jpeg', 'image.gif'].includes(fileType) &&
+      ["image/png", "image/jpeg", "image/gif"].includes(fileType) &&
       phone
     ) {
       const userWithLogin = await User.findOne({ login });
       if (userWithLogin) {
+        fs.unlinkSync(`public/uploads/${req.file.filename}`);
         return res
           .status(409)
           .send({ message: "User with this login already exists" });
@@ -32,6 +34,7 @@ exports.register = async (req, res) => {
       });
       res.status(201).send({ message: "User created " + newUser.login });
     } else {
+      fs.unlinkSync(`public/uploads/${req.file.filename}`);
       res.status(400).send({ message: "Wrong input" });
     }
   } catch (err) {

@@ -1,6 +1,7 @@
 const Advert = require("../models/Advert.model");
 const sanitize = require("mongo-sanitize");
 const getImageFileType = require("../utils/getImageFileType");
+const fs = require("fs");
 
 exports.getAll = async (req, res) => {
   try {
@@ -34,7 +35,7 @@ exports.postNewAdv = async (req, res) => {
       location &&
       user &&
       req.file &&
-      ["image/png", "image/jpeg", "image.gif"].includes(fileType)
+      ["image/png", "image/jpeg", "image/gif"].includes(fileType)
     ) {
       const stringPattern = new RegExp(/^[a-zA-Z0-9.,! ]+$/);
       const datePattern = new RegExp(/^\d{4}-\d{2}-\d{2}$/);
@@ -46,6 +47,7 @@ exports.postNewAdv = async (req, res) => {
         !user.match(stringPattern) ||
         !date.match(datePattern)
       ) {
+        fs.unlinkSync(`public/uploads/${req.file.filename}`);
         return res.status(400).send({ message: "Wrong input!" });
       } else {
         const titleClean = sanitize(title);
@@ -100,7 +102,7 @@ exports.edit = async (req, res) => {
         location &&
         user &&
         req.file &&
-        ["image/png", "image/jpeg", "image.gif"].includes(fileType)
+        ["image/png", "image/jpeg", "image/gif"].includes(fileType)
       ) {
         const stringPattern = new RegExp(/^[a-zA-Z0-9.,! ]+$/);
         const datePattern = new RegExp(/^\d{4}-\d{2}-\d{2}$/);
@@ -118,6 +120,7 @@ exports.edit = async (req, res) => {
             text.length <= 1000
           )
         ) {
+          fs.unlinkSync(`public/uploads/${req.file.filename}`);
           return res.status(400).send({ message: "Wrong input!" });
         } else {
           const titleClean = sanitize(title);
