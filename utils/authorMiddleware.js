@@ -3,7 +3,7 @@ const Advert = require("../models/Advert.model");
 const authorMiddleware = async (req, res, next) => {
   try {
     const adv = await Advert.findById(req.params.id);
-    if (adv && req.session.login && req.session.login === adv.user) {
+    if (adv && req.session.user && req.session.user.id === adv.user.toString()) {
       next();
     } else {
       res
