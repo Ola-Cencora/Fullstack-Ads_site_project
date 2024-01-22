@@ -1,18 +1,20 @@
 const User = require("../models/User.model");
 const Session = require("../models/Session.model");
 const bcrypt = require("bcryptjs");
+const getImageFileType = require("../utils/getImageFileType");
 
 exports.register = async (req, res) => {
   try {
-    const { login, password, avatar, phone } = req.body;
+    const { login, password, phone } = req.body;
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
 
     if (
       login &&
       typeof login === "string" &&
       password &&
       typeof password === "string" &&
-      avatar &&
-      typeof avatar === "string" &&
+      req.file &&
+      ['image/png', 'image/jpeg', 'image.gif'].includes(fileType) &&
       phone
     ) {
       const userWithLogin = await User.findOne({ login });
@@ -25,7 +27,7 @@ exports.register = async (req, res) => {
       const newUser = await User.create({
         login,
         password: await bcrypt.hash(password, 10),
-        avatar,
+        avatar: req.file.filename,
         phone,
       });
       res.status(201).send({ message: "User created " + newUser.login });
