@@ -14,8 +14,8 @@ import Footer from "./components/views/Footer/Footer";
 const App = () => {
   return (
     <main>
+      <Header />
       <Container>
-        <Header />
         <Routes>
           <Route path="/" element={<AdvertsList />} />
           <Route path="/adverts/:id" element={<SingleAdvert />} />
