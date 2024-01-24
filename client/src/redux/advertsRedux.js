@@ -1,7 +1,9 @@
+import { API_URL } from "../config";
+
 //selectors
 export const getAllAdverts = ({ adverts }) => adverts;
 export const getAdvertById = ({ adverts }, advertId) =>
-  adverts.find((advert) => advert.id === advertId);
+  adverts.find((advert) => advert._id === advertId);
 
 // actions
 const createActionName = actionName => `app/adverts/${actionName}`;
@@ -11,6 +13,13 @@ const EDIT_ADVERT = createActionName('EDIT_ADVERT');
 // action creators
 export const getDataAdverts = payload => ({ type: DATA_ADVERTS, payload });
 export const editAdvert = payload => ({ type: EDIT_ADVERT, payload });
+export const fetchAdverts = () => {
+  return (dispatch) => {
+    fetch(API_URL + '/api/ads')
+      .then(res => res.json())
+      .then(adverts => dispatch(getDataAdverts(adverts)));
+  }
+};
 
 
 const advertsReducer = (statePart = [], action) => {

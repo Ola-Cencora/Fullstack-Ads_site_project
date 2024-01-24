@@ -6,6 +6,7 @@
     .row {
         display: flex;
         align-items: center;
+        flex-direction: column;
 
         .button {
             background-color: $color-warm;
