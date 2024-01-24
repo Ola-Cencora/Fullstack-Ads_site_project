@@ -1,5 +1,11 @@
+import SearchForm from "../../features/SearchForm/SearchForm";
+import AdvertSummary from "../../common/AdvertSummary/AdvertSummary";
+
 const AdvertsList = () => (
-    <h2>Adverts List</h2>
+  <>
+    <SearchForm />
+    <AdvertSummary />
+  </>
 );
 
 export default AdvertsList;
