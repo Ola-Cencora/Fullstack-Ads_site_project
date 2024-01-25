@@ -6,13 +6,13 @@ import { Row } from "react-bootstrap";
 
 const AdvertsList = () => {
   const adverts = useSelector(getAllAdverts);
-  console.log(adverts);
+  const sortedAdverts = [...adverts].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
     <>
       <SearchForm />
       <Row>
-        {adverts.map(({ _id, title, location, price, img }) => (
+        {sortedAdverts.map(({ _id, title, location, price, img }) => (
           <AdvertSummary
             key={_id}
             title={title}
