@@ -34,8 +34,8 @@ exports.register = async (req, res) => {
       });
       res.status(201).send({ message: "User created " + newUser.login });
     } else {
-      fs.unlinkSync(`public/uploads/${req.file.filename}`);
       res.status(400).send({ message: "Wrong input" });
+      fs.unlinkSync(`public/uploads/${req.file.filename}`);
     }
   } catch (err) {
     res.status(500).send({ message: err });

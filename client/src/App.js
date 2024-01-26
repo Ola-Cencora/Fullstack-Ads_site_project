@@ -8,16 +8,17 @@ import SearchResults from "./components/pages/SearchResults/SearchResults";
 import Login from "./components/pages/Login/Login";
 import Register from "./components/pages/Register/Register";
 import NotFound from "./components/pages/NotFound/NotFound";
-import Header  from "./components/views/Header/Header";
+import Header from "./components/views/Header/Header";
 import Footer from "./components/views/Footer/Footer";
 import { fetchAdverts } from "./redux/advertsRedux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { API_URL } from "./config";
+import { logIn } from "./redux/usersRedux";
 
 const App = () => {
-
   const dispatch = useDispatch();
-  
+
   useEffect(() => dispatch(fetchAdverts()), [dispatch]);
 
   return (
