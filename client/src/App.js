@@ -13,8 +13,6 @@ import Footer from "./components/views/Footer/Footer";
 import { fetchAdverts } from "./redux/advertsRedux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { API_URL } from "./config";
-import { logIn } from "./redux/usersRedux";
 
 const App = () => {
   const dispatch = useDispatch();

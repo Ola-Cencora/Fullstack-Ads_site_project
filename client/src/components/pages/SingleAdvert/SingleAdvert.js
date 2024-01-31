@@ -3,36 +3,47 @@ import styles from "./SingleAdvert.module.scss";
 import { useParams, Navigate } from "react-router-dom";
 import { getAdvertById } from "../../../redux/advertsRedux";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { IMGS_URL } from "../../../config";
 
 const SingleAdvert = () => {
-
   const { advertId } = useParams();
+  const [loading, setLoading] = useState(true);
   const advertData = useSelector((state) => getAdvertById(state, advertId));
-  console.log(advertData);
+
+  useEffect(() => {
+    if (advertData) setLoading(false);
+  }, [advertData]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!advertData) return <Navigate to="/" />;
 
   return (
-    <Col>
-      <Card className={styles.advertCard} w-100>
-        <Card.Img variant="top" />
+    <Col md={9} className="mx-auto">
+      <Card className={styles.advertCard}>
+        <Card.Img
+          variant="top"
+          src={IMGS_URL + advertData.img}
+          alt={advertData.title}
+        />
         <Card.Body>
-          <Card.Title>title</Card.Title>
-          <Card.Title>price</Card.Title>
-          <Card.Text>Place</Card.Text>
-          <Card.Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </Card.Text>
+          <Card.Title>{advertData.title}</Card.Title>
+          <Card.Title>{advertData.price} $</Card.Title>
+          <Card.Text>{advertData.location}</Card.Text>
+          <Card.Text className="my-4">{advertData.text}</Card.Text>
           <Row className={styles.row}>
-            <Col>avatar</Col>
-            <Col>login</Col>
-            <Col>tel</Col>
+            <Col>
+              <img
+                src={IMGS_URL + advertData.user.avatar}
+                alt="user_avatar"
+                className={styles.avatarImg}
+              />
+            </Col>
+            <Col>{advertData.user.login}</Col>
+            <Col>{advertData.user.phone}</Col>
           </Row>
           <Row>
             <Col className="text-end">
