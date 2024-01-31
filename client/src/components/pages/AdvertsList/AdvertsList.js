@@ -15,6 +15,7 @@ const AdvertsList = () => {
         {sortedAdverts.map(({ _id, title, location, price, img }) => (
           <AdvertSummary
             key={_id}
+            id={_id}
             title={title}
             location={location}
             price={price}
