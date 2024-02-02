@@ -5,11 +5,15 @@ import { getUser } from "../../../redux/usersRedux";
 import { useState } from "react";
 import { Alert, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const AddAdvert = () => {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const userLogged = useSelector(getUser);
+
   const [status, setStatus] = useState(null);
 
   const handleSubmit = (advert) => {
@@ -27,6 +31,8 @@ const AddAdvert = () => {
       });
   };
 
+  if (!userLogged) return <Navigate to="/" />;
+
   return (
     <div>
       <h3 className="my-5 text-center">Let's add a new advert!</h3>
@@ -40,7 +46,7 @@ const AddAdvert = () => {
         {status === "error" && (
           <Alert variant="danger">
             <Alert.Heading>Something went wrong...</Alert.Heading>
-            <p>Unexpected error, ty again!</p>
+            <p>Unexpected error, try again!</p>
           </Alert>
         )}
       </Col>

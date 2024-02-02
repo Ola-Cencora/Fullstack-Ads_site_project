@@ -1,18 +1,21 @@
 import AdvertForm from "../../features/AdvertForm/AdvertForm";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { getAdvertById, editAdvertRequest } from "../../../redux/advertsRedux";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Alert, Col } from "react-bootstrap";
+import { getUser } from "../../../redux/usersRedux";
 
 const EditAdvert = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [status, setStatus] = useState(null);
+
   const { advertId } = useParams();
-  console.log(advertId);
   const advertData = useSelector((state) => getAdvertById(state, advertId));
-  console.log(advertData);
+  const userLogged = useSelector(getUser);
+  console.log("advertData", advertData, "userLogged", userLogged);
 
   const handleSubmit = (advert) => {
     advert.id = advertData._id;
@@ -28,6 +31,10 @@ const EditAdvert = () => {
         setStatus("error");
       });
   };
+
+  if (!userLogged || !advertData || userLogged.user.id !== advertData.user._id)
+    return <Navigate to="/" />;
+
   return (
     <div>
       <h3 className="my-5 text-center">Let's edit this advert!</h3>
@@ -41,7 +48,7 @@ const EditAdvert = () => {
         {status === "error" && (
           <Alert variant="danger">
             <Alert.Heading>Something went wrong...</Alert.Heading>
-            <p>Unexpected error, ty again!</p>
+            <p>Unexpected error, try again!</p>
           </Alert>
         )}
       </Col>

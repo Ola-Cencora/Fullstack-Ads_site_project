@@ -9,13 +9,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { IMGS_URL } from "../../../config";
 import { Link } from "react-router-dom";
+import { getUser } from "../../../redux/usersRedux";
 
 const SingleAdvert = () => {
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { advertId } = useParams();
+
   const [loading, setLoading] = useState(true);
+
   const advertData = useSelector((state) => getAdvertById(state, advertId));
+  const userLogged = useSelector(getUser);
 
   useEffect(() => {
     if (advertData) setLoading(false);
@@ -56,16 +61,20 @@ const SingleAdvert = () => {
             <Col>{advertData.user.login}</Col>
             <Col>{advertData.user.phone}</Col>
           </Row>
-          <Row>
-            <Col className="text-end">
-              <Link to={`/edit/${advertId}`}>
-                <Button className={styles.button}>edit</Button>
-              </Link>
-              <Button onClick={handleDelete} className={styles.button}>
-                delete
-              </Button>
-            </Col>
-          </Row>
+          {(userLogged && userLogged.user.id === advertData.user._id) ? (
+            <Row>
+              <Col className="text-end">
+                <Link to={`/edit/${advertId}`}>
+                  <Button className={styles.button}>edit</Button>
+                </Link>
+                <Button onClick={handleDelete} className={styles.button}>
+                  delete
+                </Button>
+              </Col>
+            </Row>
+          ) : (
+            ""
+          )}
         </Card.Body>
       </Card>
     </Col>
