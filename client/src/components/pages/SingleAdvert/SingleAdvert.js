@@ -22,6 +22,7 @@ const SingleAdvert = () => {
   const advertData = useSelector((state) => getAdvertById(state, advertId));
   const userLogged = useSelector(getUser);
 
+
   useEffect(() => {
     if (advertData) setLoading(false);
   }, [advertData]);
@@ -35,6 +36,8 @@ const SingleAdvert = () => {
     navigate("/");
   };
 
+  const formattedDate = new Date(advertData.date).toLocaleDateString();
+
   if (!advertData) return <Navigate to="/" />;
 
   return (
@@ -44,11 +47,13 @@ const SingleAdvert = () => {
           variant="top"
           src={IMGS_URL + advertData.img}
           alt={advertData.title}
+          className={styles.img}
         />
         <Card.Body>
           <Card.Title>{advertData.title}</Card.Title>
           <Card.Title>{advertData.price} $</Card.Title>
-          <Card.Text>{advertData.location}</Card.Text>
+          <Card.Text className="mb-1">{advertData.location}</Card.Text>
+          <Card.Text className="text-muted"><small>{formattedDate}</small></Card.Text>
           <Card.Text className="my-4">{advertData.text}</Card.Text>
           <Row className={styles.row}>
             <Col>
@@ -58,8 +63,8 @@ const SingleAdvert = () => {
                 className={styles.avatarImg}
               />
             </Col>
-            <Col>{advertData.user.login}</Col>
-            <Col>{advertData.user.phone}</Col>
+            <Col className="mt-2"><small>{advertData.user.login}</small></Col>
+            <Col><small>{advertData.user.phone}</small></Col>
           </Row>
           {(userLogged && userLogged.user.id === advertData.user._id) ? (
             <Row>
