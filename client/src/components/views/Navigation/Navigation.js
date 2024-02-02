@@ -11,7 +11,7 @@ const Navigation = () => {
   const [expanded, setExpanded] = useState(false);
 
   const signOutLink = userLogged ? (
-    <Nav.Link onClick={() => setExpanded(false)} as={NavLink} to="/">
+    <Nav.Link onClick={() => setExpanded(false)} as={NavLink} to="/logout">
       Sign out
     </Nav.Link>
   ) : null;
