@@ -60,6 +60,55 @@ export const addAdvertRequest = ({
   };
 };
 
+export const editAdvertRequest = ({
+  id,
+  title,
+  text,
+  date,
+  img,
+  price,
+  location,
+  user,
+}) => {
+  return (dispatch) => {
+    const fd = new FormData();
+    fd.append("title", title);
+    fd.append("text", text);
+    fd.append("date", date);
+    fd.append("img", img);
+    fd.append("price", price);
+    fd.append("location", location);
+    fd.append("user", user);
+
+    const options = {
+      method: "PUT",
+      credentials: "include",
+      body: fd,
+    };
+
+    return fetch(`${API_URL}/api/ads/${id}`, options)
+      .then(() => {
+        dispatch(editAdvert({
+          id,
+          title,
+          text,
+          date,
+          img,
+          price,
+          location,
+          user,
+        }));
+      })
+      /*.then(() => {
+        dispatch(fetchAdverts());
+      })*/
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+
 const advertsReducer = (statePart = [], action) => {
   switch (action.type) {
     case DATA_ADVERTS:

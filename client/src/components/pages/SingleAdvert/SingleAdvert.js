@@ -5,6 +5,7 @@ import { getAdvertById } from "../../../redux/advertsRedux";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { IMGS_URL } from "../../../config";
+import { Link } from "react-router-dom";
 
 const SingleAdvert = () => {
   const { advertId } = useParams();
@@ -47,7 +48,9 @@ const SingleAdvert = () => {
           </Row>
           <Row>
             <Col className="text-end">
-              <Button className={styles.button}>edit</Button>
+              <Link to={`/edit/${advertId}`}>
+                <Button className={styles.button}>edit</Button>
+              </Link>
               <Button className={styles.button}>delete</Button>
             </Col>
           </Row>

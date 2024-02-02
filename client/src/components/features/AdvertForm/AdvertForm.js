@@ -3,26 +3,27 @@ import { Form, Col, InputGroup, Button } from "react-bootstrap";
 import styles from "./AdvertForm.module.scss";
 import { useForm } from "react-hook-form";
 
-const AdvertForm = ({ action, actionText, isAddAdvert }) => {
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [location, setLocation] = useState("");
-  const [text, setText] = useState("");
+const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
+  const [title, setTitle] = useState(props.title || "");
+  const [price, setPrice] = useState(props.price || "");
+  const [location, setLocation] = useState(props.location || "");
+  const [text, setText] = useState(props.text || "");
   const [img, setImg] = useState(null);
+  const [date] = useState(props.date || "");
 
   const {
     register,
     handleSubmit: validate,
     formState: { errors },
   } = useForm();
-  
+
   const imgFieldValidation = isAddAdvert
     ? { required: true }
     : { required: false };
 
   const handleSubmit = () => {
     if (title && price && location && text) {
-      action({ title, price, location, text, img });
+      action({ title, price, location, text, img, date });
     }
   };
 

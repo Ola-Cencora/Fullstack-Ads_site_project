@@ -87,21 +87,19 @@ exports.deleteById = async (req, res) => {
 
 exports.edit = async (req, res) => {
   try {
-    const { title, text, date, price, location, user } = req.body;
+    let { title, text, date, price, location, user } = req.body;
     const fileType = req.file ? await getImageFileType(req.file) : "unknown";
 
     const adv = await Advert.findById(req.params.id);
     if (adv) {
       if (title && text && date && price && location && user) {
         const stringPattern = new RegExp(/^[a-zA-Z0-9.,! ]+$/);
-        const datePattern = new RegExp(/^\d{4}-\d{2}-\d{2}$/);
 
         if (
           !title.match(stringPattern) ||
           !text.match(stringPattern) ||
           !location.match(stringPattern) ||
           !user.match(stringPattern) ||
-          !date.match(datePattern) ||
           !(
             title.length >= 10 &&
             title.length <= 50 &&
@@ -138,7 +136,7 @@ exports.edit = async (req, res) => {
           }
 
           await adv.save();
-          res.send({ message: "OK", adv });
+          res.status(200).send({ message: "OK", adv });
         }
       }
     } else res.status(404).send({ message: "Not found" });
