@@ -39,10 +39,12 @@ const Login = () => {
         }
       })
       .then((user) => {
-        dispatch(logIn({ user }));
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
+        if (user) {
+          dispatch(logIn({ user }));
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        }
       })
       .catch((err) => {
         setStatus("serverError");
