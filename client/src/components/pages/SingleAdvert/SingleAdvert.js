@@ -1,13 +1,18 @@
 import { Card, Button, Row, Col } from "react-bootstrap";
 import styles from "./SingleAdvert.module.scss";
-import { useParams, Navigate } from "react-router-dom";
-import { getAdvertById } from "../../../redux/advertsRedux";
-import { useSelector } from "react-redux";
+import { useParams, Navigate, useNavigate } from "react-router-dom";
+import {
+  getAdvertById,
+  deleteAdvertRequest,
+} from "../../../redux/advertsRedux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { IMGS_URL } from "../../../config";
 import { Link } from "react-router-dom";
 
 const SingleAdvert = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { advertId } = useParams();
   const [loading, setLoading] = useState(true);
   const advertData = useSelector((state) => getAdvertById(state, advertId));
@@ -19,6 +24,11 @@ const SingleAdvert = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  const handleDelete = () => {
+    dispatch(deleteAdvertRequest(advertId));
+    navigate("/");
+  };
 
   if (!advertData) return <Navigate to="/" />;
 
@@ -51,7 +61,9 @@ const SingleAdvert = () => {
               <Link to={`/edit/${advertId}`}>
                 <Button className={styles.button}>edit</Button>
               </Link>
-              <Button className={styles.button}>delete</Button>
+              <Button onClick={handleDelete} className={styles.button}>
+                delete
+              </Button>
             </Col>
           </Row>
         </Card.Body>

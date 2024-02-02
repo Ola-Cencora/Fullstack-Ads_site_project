@@ -86,28 +86,44 @@ export const editAdvertRequest = ({
       body: fd,
     };
 
-    return fetch(`${API_URL}/api/ads/${id}`, options)
-      .then(() => {
-        dispatch(editAdvert({
-          id,
-          title,
-          text,
-          date,
-          img,
-          price,
-          location,
-          user,
-        }));
-      })
-      /*.then(() => {
+    return (
+      fetch(`${API_URL}/api/ads/${id}`, options)
+        .then(() => {
+          dispatch(
+            editAdvert({
+              id,
+              title,
+              text,
+              date,
+              img,
+              price,
+              location,
+              user,
+            })
+          );
+        })
+        /*.then(() => {
         dispatch(fetchAdverts());
       })*/
-      .catch((err) => {
-        console.log(err);
-      });
+        .catch((err) => {
+          console.log(err);
+        })
+    );
   };
 };
 
+export const deleteAdvertRequest = (id) => {
+  return (dispatch) => {
+    const options = {
+      method: "DELETE",
+      credentials: "include",
+    };
+
+    fetch(`${API_URL}/api/ads/${id}`, options).then(() => {
+      dispatch(fetchAdverts());
+    });
+  };
+};
 
 const advertsReducer = (statePart = [], action) => {
   switch (action.type) {
