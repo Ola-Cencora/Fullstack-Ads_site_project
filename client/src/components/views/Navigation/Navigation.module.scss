@@ -4,4 +4,16 @@
     background-color: $color-main;
     height: 10vh;
     margin-bottom: 3vh;
+
+    .button {
+        background-color: $color-warm;
+        border-color: $color-warm;
+        border-radius: $border-radius;
+        padding: $button-padding;
+        &:hover {
+            background-color: $color-cool;
+            border-color: $color-cool;
+        }
+    }    
+
 }

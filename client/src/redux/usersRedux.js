@@ -1,4 +1,5 @@
 // selectors
+export const getUser = ({ user }) => user;
 
 // actions
 const createActionName = (actionName) => `app/users/${actionName}`;
@@ -10,7 +11,7 @@ export const logIn = (payload) => ({
   payload,
 });
 
-const usersReducer = (statePart = null, action) => {
+const usersReducer = (statePart = {}, action) => {
   switch (action.type) {
     case LOG_IN:
       return action.payload;

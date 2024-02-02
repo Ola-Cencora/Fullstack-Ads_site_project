@@ -38,14 +38,12 @@ exports.postNewAdv = async (req, res) => {
       ["image/png", "image/jpeg", "image/gif"].includes(fileType)
     ) {
       const stringPattern = new RegExp(/^[a-zA-Z0-9.,! ]+$/);
-      const datePattern = new RegExp(/^\d{4}-\d{2}-\d{2}$/);
 
       if (
         !title.match(stringPattern) ||
         !text.match(stringPattern) ||
         !location.match(stringPattern) ||
-        !user.match(stringPattern) ||
-        !date.match(datePattern)
+        !user.match(stringPattern)
       ) {
         fs.unlinkSync(`public/uploads/${req.file.filename}`);
         return res.status(400).send({ message: "Wrong input!" });

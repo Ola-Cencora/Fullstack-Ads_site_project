@@ -31,15 +31,18 @@ const Login = () => {
       .then((res) => {
         if (res.status === 200) {
           setStatus("success");
-          dispatch(logIn({ login }));
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
+          return res.json();
         } else if (res.status === 400) {
           setStatus("clientError");
         } else {
           setStatus("serverError");
         }
+      })
+      .then((user) => {
+        dispatch(logIn({ user }));
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       })
       .catch((err) => {
         setStatus("serverError");

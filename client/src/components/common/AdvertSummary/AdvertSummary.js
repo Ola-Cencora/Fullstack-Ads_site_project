@@ -7,7 +7,7 @@ const AdvertSummary = ({ id, title, location, price, img }) => {
   return (
     <Col sm={12} lg={6} xl={4}>
       <Card className={styles.advertCard}>
-        <Card.Img variant="top" src={IMGS_URL + img} alt={title} />
+        <Card.Img variant="top" src={IMGS_URL + img} alt={title} className={styles.img} />
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <Row className={styles.row}>

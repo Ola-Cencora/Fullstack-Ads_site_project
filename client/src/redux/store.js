@@ -7,7 +7,7 @@ import searchAdvertsReducer from './searchAdvertsRedux';
 
 const subreducers = {
     adverts: advertsReducer,
-    users: usersReducer,
+    user: usersReducer,
     searchPhrase: searchAdvertsReducer
 }
 
