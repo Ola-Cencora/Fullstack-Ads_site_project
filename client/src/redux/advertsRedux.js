@@ -102,9 +102,9 @@ export const editAdvertRequest = ({
             })
           );
         })
-        /*.then(() => {
+        .then(() => {
         dispatch(fetchAdverts());
-      })*/
+      })
         .catch((err) => {
           console.log(err);
         })
