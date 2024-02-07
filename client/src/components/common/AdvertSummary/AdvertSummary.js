@@ -2,6 +2,7 @@ import { Card, Button, Row, Col } from "react-bootstrap";
 import styles from "./AdvertSummary.module.scss";
 import { IMGS_URL } from "../../../config";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 const AdvertSummary = ({ id, title, location, price, img }) => {
   return (
@@ -26,5 +27,13 @@ const AdvertSummary = ({ id, title, location, price, img }) => {
     </Col>
   );
 };
+
+AdvertSummary.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  img: PropTypes.string.isRequired
+}
 
 export default AdvertSummary;

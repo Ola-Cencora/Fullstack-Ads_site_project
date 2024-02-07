@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form, Col, InputGroup, Button } from "react-bootstrap";
 import styles from "./AdvertForm.module.scss";
 import { useForm } from "react-hook-form";
+import PropTypes from 'prop-types';
 
 const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
   const [title, setTitle] = useState(props.title || "");
@@ -121,5 +122,12 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
     </Col>
   );
 };
+
+AdvertForm.propTypes = {
+  action: PropTypes.func.isRequired,
+  actionText: PropTypes.string.isRequired,
+  isAddAdvert: PropTypes.bool,
+  ...PropTypes.object
+}
 
 export default AdvertForm;
