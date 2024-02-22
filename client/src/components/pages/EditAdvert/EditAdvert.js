@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Alert, Col } from "react-bootstrap";
 import { getUser } from "../../../redux/usersRedux";
+import PageTitle from "../../common/PageTitle/PageTitle";
 
 const EditAdvert = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const EditAdvert = () => {
 
   return (
     <div>
-      <h3 className="my-5 text-center">Let's edit this advert!</h3>
+      <PageTitle title="Let's edit this advert!" />
       <Col sm={12} lg={6} xl={4} className="mx-auto">
         {status === "success" && (
           <Alert variant="success">

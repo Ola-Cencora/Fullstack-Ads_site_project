@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/usersRedux";
 import { useNavigate } from "react-router-dom";
+import PageTitle from "../../common/PageTitle/PageTitle";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const Login = () => {
       onSubmit={handleSubmit}
       className={clsx(styles.formLogin, "col-10 col-sm-8 col-lg-4 mx-auto")}
     >
-      <h3 className="mb-4">Let's sign in!</h3>
+      <PageTitle title="Let's sign in!" />
       {status === "success" && (
         <Alert variant="success">
           <Alert.Heading>Success!</Alert.Heading>

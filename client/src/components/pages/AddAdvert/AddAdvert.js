@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Alert, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import PageTitle from "../../common/PageTitle/PageTitle";
 
 const AddAdvert = () => {
 
@@ -35,7 +36,7 @@ const AddAdvert = () => {
 
   return (
     <div>
-      <h3 className="my-5 text-center">Let's add a new advert!</h3>
+      <PageTitle title="Let's add a new advert!" />
       <Col sm={12} lg={6} xl={4} className="mx-auto">
         {status === "success" && (
           <Alert variant="success">

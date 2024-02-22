@@ -3,6 +3,7 @@ import styles from "./Register.module.scss";
 import clsx from "clsx";
 import { useState } from "react";
 import { API_URL } from "../../../config";
+import PageTitle from "../../common/PageTitle/PageTitle";
 
 const Register = () => {
   const [login, setLogin] = useState("");
@@ -48,7 +49,7 @@ const Register = () => {
       onSubmit={handleSubmit}
       className={clsx(styles.formRegister, "col-10 col-sm-8 col-lg-4 mx-auto")}
     >
-      <h3 className="mb-4">Let's sign up!</h3>
+      <PageTitle title="Let's sign up!" />
       {status === "success" && (
         <Alert variant="success">
           <Alert.Heading>Success!</Alert.Heading>

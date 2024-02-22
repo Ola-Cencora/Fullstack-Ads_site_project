@@ -127,7 +127,6 @@ AdvertForm.propTypes = {
   action: PropTypes.func.isRequired,
   actionText: PropTypes.string.isRequired,
   isAddAdvert: PropTypes.bool,
-  ...PropTypes.object
 }
 
 export default AdvertForm;
