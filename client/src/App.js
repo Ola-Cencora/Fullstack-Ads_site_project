@@ -12,14 +12,18 @@ import Header from "./components/views/Header/Header";
 import Footer from "./components/views/Footer/Footer";
 import Logout from "./components/pages/Logout/Logout";
 import { fetchAdverts } from "./redux/advertsRedux";
+import { fetchUser } from "./redux/usersRedux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 const App = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(fetchAdverts()), [dispatch]);
-
+  useEffect(() => {
+    dispatch(fetchAdverts());
+    dispatch(fetchUser());
+  }, [dispatch]);
+  
   return (
     <main>
       <Header />

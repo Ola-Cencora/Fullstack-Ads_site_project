@@ -1,3 +1,5 @@
+import { API_URL } from "../config";
+
 // selectors
 export const getUser = ({ user }) => user;
 
@@ -15,6 +17,18 @@ export const logIn = (payload) => ({
 export const logOut = () => ({
   type: LOG_OUT,
 });
+
+// thunks
+export const fetchUser = () => {
+  return (dispatch) => {
+    fetch(API_URL + "/auth/user")
+      .then((res) => res.json())
+      .then((user) => dispatch(logIn({ user })))
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 
 const usersReducer = (statePart = {}, action) => {
   switch (action.type) {
