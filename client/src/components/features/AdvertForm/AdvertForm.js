@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Form, Col, InputGroup, Button } from "react-bootstrap";
-import styles from "./AdvertForm.module.scss";
+import { Form, Col, InputGroup } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import PropTypes from 'prop-types';
+import Button from "../../common/Button/Button";
 
 const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
   const [title, setTitle] = useState(props.title || "");
@@ -30,7 +30,7 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
 
   return (
     <Col sm={12} lg={6} xl={4} className="mx-auto">
-      <Form onSubmit={validate(handleSubmit)} className={styles.form}>
+      <Form onSubmit={validate(handleSubmit)} className="text-center">
         <Form.Group className="mb-3" controlId="formTitle">
           <Form.Label>What do you want to sell?</Form.Label>
           <Form.Control
@@ -115,9 +115,7 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
             </small>
           )}
         </Form.Group>
-        <Button type="submit" className={styles.button}>
-          {actionText}
-        </Button>
+        <Button type="submit" color="cool-main" content={actionText} />
       </Form>
     </Col>
   );

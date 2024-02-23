@@ -1,9 +1,8 @@
-import { Form, Button, Alert, Spinner } from "react-bootstrap";
-import styles from "./Register.module.scss";
-import clsx from "clsx";
+import { Form, Alert, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import { API_URL } from "../../../config";
 import PageTitle from "../../common/PageTitle/PageTitle";
+import Button from "../../common/Button/Button";
 
 const Register = () => {
   const [login, setLogin] = useState("");
@@ -47,7 +46,7 @@ const Register = () => {
   return (
     <Form
       onSubmit={handleSubmit}
-      className={clsx(styles.formRegister, "col-10 col-sm-8 col-lg-4 mx-auto")}
+      className="col-10 col-sm-8 col-lg-4 mx-auto text-center"
     >
       <PageTitle title="Let's sign up!" />
       {status === "success" && (
@@ -113,9 +112,7 @@ const Register = () => {
           type="file"
         />
       </Form.Group>
-      <Button type="submit" className={styles.button}>
-        submit
-      </Button>
+      <Button type="submit" color="cool-main" content="submit" />
     </Form>
   );
 };

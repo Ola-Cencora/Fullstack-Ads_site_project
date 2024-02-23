@@ -1,10 +1,11 @@
-import { Nav, Navbar, Container, Button } from "react-bootstrap";
+import { Nav, Navbar, Container } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import styles from "./Navigation.module.scss";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getUser } from "../../../redux/usersRedux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import Button from "../../common/Button/Button";
 
 const Navigation = () => {
   const userLogged = useSelector(getUser);
@@ -29,7 +30,7 @@ const Navigation = () => {
 
   const newAdvertButton = userLogged ? (
     <Link to={`/new`}>
-      <Button className={styles.button}>new advert</Button>
+      <Button color="warm-cool" content="new advert" />
     </Link>
   ) : null;
 

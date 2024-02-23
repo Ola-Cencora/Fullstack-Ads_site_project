@@ -1,0 +1,28 @@
+@import '../../../styles/settings.scss';
+
+.buttonWarmCool {
+    color: white;
+    background-color: $color-warm;
+    border: none;
+    border-radius: $border-radius;
+    padding: $button-padding;
+    transition: background-color .15s linear;
+    &:hover {
+        background-color: $color-cool;
+    }
+}
+
+.buttonCoolMain {
+    @extend .buttonWarmCool;
+    background-color: $color-cool;
+    &:hover {
+        background-color: $color-main;
+    }
+}
+
+.buttonWarmMain {
+    @extend .buttonWarmCool;
+    &:hover {
+        background-color: $color-main;
+    }
+}

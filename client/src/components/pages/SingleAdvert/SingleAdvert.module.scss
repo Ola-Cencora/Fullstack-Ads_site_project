@@ -22,16 +22,4 @@
             border-radius: 50%;
         }
     }
-
-    .button {
-        background-color: $color-warm;
-        border-color: $color-warm;
-        border-radius: $border-radius;
-        padding: $button-padding;
-        margin-right: 5px;
-        &:hover {
-            background-color: $color-main;
-            border-color: $color-main;
-        }
-    }    
 }

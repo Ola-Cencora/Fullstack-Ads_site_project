@@ -1,8 +1,9 @@
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Row, Col } from "react-bootstrap";
 import styles from "./AdvertSummary.module.scss";
 import { IMGS_URL } from "../../../config";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
+import Button from "../Button/Button";
 
 const AdvertSummary = ({ id, title, location, price, img }) => {
   return (
@@ -18,7 +19,7 @@ const AdvertSummary = ({ id, title, location, price, img }) => {
             <Col>{location}</Col>
             <Col className="text-end">
               <Link to={`/adverts/${id}`}>
-                <Button className={styles.button}>see more</Button>
+                <Button color="warm-main" content="see more" />
               </Link>
             </Col>
           </Row>

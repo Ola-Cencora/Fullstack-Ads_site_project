@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Row, Col } from "react-bootstrap";
 import styles from "./SingleAdvert.module.scss";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import {
@@ -10,9 +10,9 @@ import { useEffect, useState } from "react";
 import { IMGS_URL } from "../../../config";
 import { Link } from "react-router-dom";
 import { getUser } from "../../../redux/usersRedux";
+import Button from "../../common/Button/Button";
 
 const SingleAdvert = () => {
-  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { advertId } = useParams();
@@ -21,7 +21,6 @@ const SingleAdvert = () => {
 
   const advertData = useSelector((state) => getAdvertById(state, advertId));
   const userLogged = useSelector(getUser);
-
 
   useEffect(() => {
     if (advertData) setLoading(false);
@@ -53,7 +52,9 @@ const SingleAdvert = () => {
           <Card.Title>{advertData.title}</Card.Title>
           <Card.Title>{advertData.price} $</Card.Title>
           <Card.Text className="mb-1">{advertData.location}</Card.Text>
-          <Card.Text className="text-muted"><small>{formattedDate}</small></Card.Text>
+          <Card.Text className="text-muted">
+            <small>{formattedDate}</small>
+          </Card.Text>
           <Card.Text className="my-4">{advertData.text}</Card.Text>
           <Row className={styles.row}>
             <Col>
@@ -63,18 +64,24 @@ const SingleAdvert = () => {
                 className={styles.avatarImg}
               />
             </Col>
-            <Col className="mt-2"><small>{advertData.user.login}</small></Col>
-            <Col><small>{advertData.user.phone}</small></Col>
+            <Col className="mt-2">
+              <small>{advertData.user.login}</small>
+            </Col>
+            <Col>
+              <small>{advertData.user.phone}</small>
+            </Col>
           </Row>
-          {(userLogged && userLogged.user.id === advertData.user._id) ? (
+          {userLogged && userLogged.user.id === advertData.user._id ? (
             <Row>
               <Col className="text-end">
-                <Link to={`/edit/${advertId}`}>
-                  <Button className={styles.button}>edit</Button>
+                <Link className="mx-1" to={`/edit/${advertId}`}>
+                  <Button color="warm-main" content="edit" />
                 </Link>
-                <Button onClick={handleDelete} className={styles.button}>
-                  delete
-                </Button>
+                <Button
+                  onClick={handleDelete}
+                  color="warm-main"
+                  content="delete"
+                />
               </Col>
             </Row>
           ) : (

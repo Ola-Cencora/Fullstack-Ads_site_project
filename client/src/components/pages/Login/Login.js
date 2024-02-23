@@ -1,12 +1,11 @@
-import { Form, Button, Alert, Spinner } from "react-bootstrap";
-import styles from "./Login.module.scss";
+import { Form, Alert, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import { API_URL } from "../../../config";
-import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/usersRedux";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "../../common/PageTitle/PageTitle";
+import Button from "../../common/Button/Button";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -55,7 +54,7 @@ const Login = () => {
   return (
     <Form
       onSubmit={handleSubmit}
-      className={clsx(styles.formLogin, "col-10 col-sm-8 col-lg-4 mx-auto")}
+      className="col-10 col-sm-8 col-lg-4 mx-auto text-center"
     >
       <PageTitle title="Let's sign in!" />
       {status === "success" && (
@@ -99,9 +98,7 @@ const Login = () => {
           placeholder="Password"
         />
       </Form.Group>
-      <Button type="submit" className={styles.button}>
-        submit
-      </Button>
+      <Button type="submit" color="cool-main" content="submit" />
     </Form>
   );
 };

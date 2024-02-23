@@ -1,9 +1,11 @@
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import styles from "./SearchForm.module.scss";
 import { useState } from "react";
 import { updateSearchPhrase } from "../../../redux/searchAdvertsRedux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Button from "../../common/Button/Button";
+import clsx from "clsx";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
@@ -18,8 +20,11 @@ const SearchForm = () => {
   };
 
   return (
-    <Form onSubmit={handleSearch} className={styles.search}>
-      <Row className="g-1">
+    <Form
+      onSubmit={handleSearch}
+      className={clsx("d-flex justify-content-center", styles.search)}
+    >
+      <Row className="g-1 d-flex align-items-center">
         <Col sm={12} lg={8}>
           <Form.Control
             className={styles.form}
@@ -29,10 +34,8 @@ const SearchForm = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </Col>
-        <Col sm={12} lg={4} className={styles.buttonCol}>
-          <Button className={styles.button} type="submit">
-            search
-          </Button>
+        <Col sm={12} lg={4}>
+          <Button type="submit" color="cool-main" content="search" />
         </Col>
       </Row>
     </Form>
