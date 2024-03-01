@@ -57,7 +57,7 @@ exports.login = async (req, res) => {
       } else {
         if (bcrypt.compareSync(password, user.password)) {
           req.session.user = { login: user.login, id: user._id };
-          res.status(200).json( req.session.user );
+          res.status(200).json(req.session.user);
         } else {
           res.status(400).send({ message: "Login or password incorrect" });
         }
@@ -72,10 +72,18 @@ exports.login = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findOne({ login: req.session.login });
-    if (user) res.status(200).json(user);
+    if (req.session.user && req.session.user.id) {
+      const user = await User.findById(req.session.user.id);
+      if (user) {
+        return res.json(user);
+      } else {
+        return res.status(404).json({ message: "User not found" });
+      }
+    } else {
+      return res.status(401).json({ message: "User not authenticated" });
+    }
   } catch (err) {
-    res.status(500).send({ message: err });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
