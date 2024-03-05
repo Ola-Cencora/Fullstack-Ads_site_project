@@ -22,14 +22,19 @@ export const logOut = () => ({
 export const fetchUser = () => {
   return (dispatch) => {
     fetch(API_URL + "/auth/user")
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error("No logged in user");
+        }
+      })
       .then((user) => dispatch(logIn({ user })))
       .catch((err) => {
         console.log(err);
       });
   };
 };
-
 const usersReducer = (statePart = {}, action) => {
   switch (action.type) {
     case LOG_IN:

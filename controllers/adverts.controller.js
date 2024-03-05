@@ -24,7 +24,8 @@ exports.getById = async (req, res) => {
 
 exports.postNewAdv = async (req, res) => {
   try {
-    const { title, text, date, price, location, user } = req.body;
+    const { title, text, date, price, location } = req.body;
+    const { user } = req.session.user;
     const fileType = req.file ? await getImageFileType(req.file) : "unknown";
 
     if (
@@ -118,11 +119,11 @@ exports.edit = async (req, res) => {
           const userClean = sanitize(user);
 
           (adv.title = titleClean),
-          (adv.text = textClean),
-          (adv.date = dateClean),
-          (adv.price = priceClean),
-          (adv.location = locationClean),
-          (adv.user = userClean);
+            (adv.text = textClean),
+            (adv.date = dateClean),
+            (adv.price = priceClean),
+            (adv.location = locationClean),
+            (adv.user = userClean);
 
           if (
             req.file &&

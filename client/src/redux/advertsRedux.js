@@ -86,29 +86,27 @@ export const editAdvertRequest = ({
       body: fd,
     };
 
-    return (
-      fetch(`${API_URL}/api/ads/${id}`, options)
-        .then(() => {
-          dispatch(
-            editAdvert({
-              id,
-              title,
-              text,
-              date,
-              img,
-              price,
-              location,
-              user,
-            })
-          );
-        })
-        .then(() => {
+    return fetch(`${API_URL}/api/ads/${id}`, options)
+      .then(() => {
+        dispatch(
+          editAdvert({
+            id,
+            title,
+            text,
+            date,
+            img,
+            price,
+            location,
+            user,
+          })
+        );
+      })
+      .then(() => {
         dispatch(fetchAdverts());
       })
-        .catch((err) => {
-          console.log(err);
-        })
-    );
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
@@ -128,7 +126,9 @@ export const deleteAdvertRequest = (id) => {
 const advertsReducer = (statePart = [], action) => {
   switch (action.type) {
     case DATA_ADVERTS:
+      console.log(action);
       return [...action.payload];
+
     case EDIT_ADVERT:
       return statePart.map((advert) =>
         advert.id === action.payload.id
