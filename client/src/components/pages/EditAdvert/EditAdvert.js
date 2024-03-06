@@ -16,7 +16,6 @@ const EditAdvert = () => {
   const { advertId } = useParams();
   const advertData = useSelector((state) => getAdvertById(state, advertId));
   const userLogged = useSelector(getUser);
-  console.log("advertData", advertData, "userLogged", userLogged);
 
   const handleSubmit = (advert) => {
     advert.id = advertData._id;
@@ -33,7 +32,7 @@ const EditAdvert = () => {
       });
   };
 
-  if (!userLogged || !advertData || userLogged.user.id !== advertData.user._id)
+  if (!userLogged || !advertData || userLogged.user._id !== advertData.user._id)
     return <Navigate to="/" />;
 
   return (

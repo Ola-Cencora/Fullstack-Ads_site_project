@@ -1,112 +1,104 @@
 import { API_URL } from "../config";
+import axios from "axios";
+import initialState from "./initalState";
 
 //selectors
-export const getAllAdverts = ({ adverts }) => adverts;
+export const getAllAdverts = ({ adverts }) => adverts.data;
+export const getRequests = ({ adverts }) => adverts.requests;
 export const getAdvertById = ({ adverts }, advertId) =>
-  adverts.find((advert) => advert._id === advertId);
+  adverts.data.find((advert) => advert._id === advertId);
 
 // actions
 const createActionName = (actionName) => `app/adverts/${actionName}`;
+
+const START_REQUEST = createActionName("START_REQUEST");
+const END_REQUEST = createActionName("END_REQUEST");
+const ERROR_REQUEST = createActionName("ERROR_REQUEST");
+
 const DATA_ADVERTS = createActionName("DATA_ADVERTS");
 const EDIT_ADVERT = createActionName("EDIT_ADVERT");
 const ADD_ADVERT = createActionName("ADD_ADVERT");
 
 // action creators
+export const startRequest = (payload) => ({ payload, type: START_REQUEST });
+export const endRequest = (payload) => ({ payload, type: END_REQUEST });
+export const errorRequest = (payload) => ({ payload, type: ERROR_REQUEST });
+
 export const getDataAdverts = (payload) => ({ type: DATA_ADVERTS, payload });
 export const editAdvert = (payload) => ({ type: EDIT_ADVERT, payload });
 export const addAdvert = (payload) => ({ type: ADD_ADVERT, payload });
 
 // thunks
 export const fetchAdverts = () => {
-  return (dispatch) => {
-    fetch(API_URL + "/api/ads")
-      .then((res) => res.json())
-      .then((adverts) => dispatch(getDataAdverts(adverts)));
+  return async (dispatch) => {
+    const requestName = DATA_ADVERTS;
+    dispatch(startRequest({ name: requestName }));
+
+    try {
+      let res = await axios.get(`${API_URL}/api/ads`);
+      dispatch(getDataAdverts(res.data));
+      dispatch(endRequest({ name: requestName }));
+    } catch (e) {
+      dispatch(errorRequest({ name: requestName, error: e.message }));
+    }
   };
 };
 
-export const addAdvertRequest = ({
-  title,
-  text,
-  date,
-  img,
-  price,
-  location,
-  user,
-}) => {
-  return (dispatch) => {
-    const fd = new FormData();
-    fd.append("title", title);
-    fd.append("text", text);
-    fd.append("date", date);
-    fd.append("img", img);
-    fd.append("price", price);
-    fd.append("location", location);
-    fd.append("user", user);
+export const addAdvertRequest = (newAdvert) => {
+  return async (dispatch) => {
+    const requestName = ADD_ADVERT;
+    dispatch(startRequest({ name: requestName }));
+    try {
+      const fd = new FormData();
+      fd.append("title", newAdvert.title);
+      fd.append("text", newAdvert.text);
+      fd.append("date", newAdvert.date);
+      fd.append("img", newAdvert.img);
+      fd.append("price", newAdvert.price);
+      fd.append("location", newAdvert.location);
+      fd.append("user", newAdvert.user);
 
-    const options = {
-      method: "POST",
-      credentials: "include",
-      body: fd,
-    };
-
-    return fetch(API_URL + "/api/ads", options)
-      .then(() => {
-        dispatch(fetchAdverts());
-      })
-      .catch((err) => {
-        console.log(err);
+      await axios.post(`${API_URL}/api/ads`, fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
       });
+      dispatch(fetchAdverts());
+      dispatch(endRequest({ name: requestName }));
+    } catch (e) {
+      dispatch(errorRequest({ name: requestName, error: e.message }));
+    }
   };
 };
 
-export const editAdvertRequest = ({
-  id,
-  title,
-  text,
-  date,
-  img,
-  price,
-  location,
-  user,
-}) => {
-  return (dispatch) => {
-    const fd = new FormData();
-    fd.append("title", title);
-    fd.append("text", text);
-    fd.append("date", date);
-    fd.append("img", img);
-    fd.append("price", price);
-    fd.append("location", location);
-    fd.append("user", user);
+export const editAdvertRequest = (newAdvert) => {
+  return async (dispatch) => {
+    const requestName = EDIT_ADVERT;
+    dispatch(startRequest({ name: requestName }));
 
-    const options = {
-      method: "PUT",
-      credentials: "include",
-      body: fd,
-    };
+    try {
+      const fd = new FormData();
+      fd.append("title", newAdvert.title);
+      fd.append("text", newAdvert.text);
+      fd.append("date", newAdvert.date);
+      fd.append("img", newAdvert.img);
+      fd.append("price", newAdvert.price);
+      fd.append("location", newAdvert.location);
+      fd.append("user", newAdvert.user);
 
-    return fetch(`${API_URL}/api/ads/${id}`, options)
-      .then(() => {
-        dispatch(
-          editAdvert({
-            id,
-            title,
-            text,
-            date,
-            img,
-            price,
-            location,
-            user,
-          })
-        );
-      })
-      .then(() => {
-        dispatch(fetchAdverts());
-      })
-      .catch((err) => {
-        console.log(err);
+      await axios.put(`${API_URL}/api/ads/${newAdvert.id}`, fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
       });
+      dispatch(editAdvert(fd));
+      dispatch(fetchAdverts());
+      dispatch(endRequest({ name: requestName }));
+    } catch (e) {
+      dispatch(errorRequest({ name: requestName, error: e.message }));
+    }
   };
 };
 
@@ -123,20 +115,51 @@ export const deleteAdvertRequest = (id) => {
   };
 };
 
-const advertsReducer = (statePart = [], action) => {
+const advertsReducer = (statePart = initialState, action = {}) => {
   switch (action.type) {
     case DATA_ADVERTS:
-      console.log(action);
-      return [...action.payload];
-
+      return { ...statePart, data: [...action.payload] };
     case EDIT_ADVERT:
-      return statePart.map((advert) =>
-        advert.id === action.payload.id
-          ? { ...advert, ...action.payload }
-          : advert
-      );
+      return {
+        ...statePart,
+        data: statePart.data.map((advert) =>
+          advert._id === action.payload._id
+            ? { ...advert, ...action.payload }
+            : advert
+        ),
+      };
     case ADD_ADVERT:
-      return [...statePart, { ...action.payload }];
+      return { ...statePart, data: [...statePart.data, action.payload] };
+
+    case START_REQUEST:
+      return {
+        ...statePart,
+        requests: {
+          ...statePart.requests,
+          [action.payload.name]: { pending: true, error: null, success: false },
+        },
+      };
+    case END_REQUEST:
+      return {
+        ...statePart,
+        requests: {
+          ...statePart.requests,
+          [action.payload.name]: { pending: false, error: null, success: true },
+        },
+      };
+    case ERROR_REQUEST:
+      return {
+        ...statePart,
+        requests: {
+          ...statePart.requests,
+          [action.payload.name]: {
+            pending: false,
+            error: action.payload.error,
+            success: false,
+          },
+        },
+      };
+
     default:
       return statePart;
   }

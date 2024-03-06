@@ -14,7 +14,6 @@ const AddAdvert = () => {
   const navigate = useNavigate();
 
   const userLogged = useSelector(getUser);
-
   const [status, setStatus] = useState(null);
 
   const handleSubmit = (advert) => {

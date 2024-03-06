@@ -24,8 +24,7 @@ exports.getById = async (req, res) => {
 
 exports.postNewAdv = async (req, res) => {
   try {
-    const { title, text, date, price, location } = req.body;
-    const { user } = req.session.user;
+    const { title, text, date, price, location, user } = req.body;
     const fileType = req.file ? await getImageFileType(req.file) : "unknown";
 
     if (
@@ -54,7 +53,6 @@ exports.postNewAdv = async (req, res) => {
         const dateClean = sanitize(date);
         const priceClean = sanitize(price);
         const locationClean = sanitize(location);
-        const userClean = sanitize(user);
 
         const newAdvert = new Advert({
           title: titleClean,
@@ -63,7 +61,7 @@ exports.postNewAdv = async (req, res) => {
           img: req.file.filename,
           price: priceClean,
           location: locationClean,
-          user: userClean,
+          user: req.session.user.id,
         });
         await newAdvert.save();
         res.send({ message: "OK", newAdvert });
@@ -79,6 +77,7 @@ exports.deleteById = async (req, res) => {
     const adv = await Advert.findById(req.params.id);
     if (adv) {
       await Advert.deleteOne({ _id: req.params.id });
+      await fs.unlinkSync(`public/uploads/${adv.img}`);
       res.send({ message: "OK", adv });
     } else res.status(404).send({ message: "Not found..." });
   } catch (err) {
@@ -92,57 +91,58 @@ exports.edit = async (req, res) => {
     const fileType = req.file ? await getImageFileType(req.file) : "unknown";
 
     const adv = await Advert.findById(req.params.id);
-    if (adv) {
-      if (title && text && date && price && location && user) {
-        const stringPattern = new RegExp(/^[a-zA-Z0-9.,! ]+$/);
+    if (!adv) {
+      return res.status(404).send({ message: "Not found" });
+    }
 
-        if (
-          !title.match(stringPattern) ||
-          !text.match(stringPattern) ||
-          !location.match(stringPattern) ||
-          !user.match(stringPattern) ||
-          !(
-            title.length >= 10 &&
-            title.length <= 50 &&
-            text.length >= 20 &&
-            text.length <= 1000
-          )
-        ) {
+    if (title && text && date && price && location && user) {
+      const stringPattern = new RegExp(/^[a-zA-Z0-9.,! ]+$/);
+
+      if (
+        !title.match(stringPattern) ||
+        !text.match(stringPattern) ||
+        !location.match(stringPattern) ||
+        !user.match(stringPattern) ||
+        !(title.length >= 10 && title.length <= 50) ||
+        !(text.length >= 20 && text.length <= 1000)
+      ) {
+        if (req.file) {
           fs.unlinkSync(`public/uploads/${req.file.filename}`);
-          return res.status(400).send({ message: "Wrong input!" });
-        } else {
-          const titleClean = sanitize(title);
-          const textClean = sanitize(text);
-          const dateClean = sanitize(date);
-          const priceClean = sanitize(price);
-          const locationClean = sanitize(location);
-          const userClean = sanitize(user);
-
-          (adv.title = titleClean),
-            (adv.text = textClean),
-            (adv.date = dateClean),
-            (adv.price = priceClean),
-            (adv.location = locationClean),
-            (adv.user = userClean);
-
-          if (
-            req.file &&
-            ["image/png", "image/jpeg", "image/gif"].includes(fileType)
-          ) {
-            if (adv.img) {
-              fs.unlinkSync(`public/uploads/${adv.img}`);
-            } else {
-              adv.img = req.file.filename;
-            }
-          }
-
-          await adv.save();
-          res.status(200).send({ message: "OK", adv });
         }
+        return res.status(400).send({ message: "Wrong input!" });
       }
-    } else res.status(404).send({ message: "Not found" });
+
+      const titleClean = sanitize(title);
+      const textClean = sanitize(text);
+      const dateClean = sanitize(date);
+      const priceClean = sanitize(price);
+      const locationClean = sanitize(location);
+      const userClean = sanitize(user);
+
+      adv.title = titleClean;
+      adv.text = textClean;
+      adv.date = dateClean;
+      adv.price = priceClean;
+      adv.location = locationClean;
+      adv.user = userClean;
+
+      if (
+        req.file &&
+        ["image/png", "image/jpeg", "image/gif"].includes(fileType)
+      ) {
+        if (adv.img) {
+          fs.unlinkSync(`public/uploads/${adv.img}`);
+        }
+        adv.img = req.file.filename;
+      }
+
+      await adv.save();
+      return res.status(200).send({ message: "OK", adv });
+    } else {
+      return res.status(400).send({ message: "Missing fields" });
+    }
   } catch (err) {
-    res.status(500).send({ message: err });
+    return res.status(500).send({ message: err });
   }
 };
 

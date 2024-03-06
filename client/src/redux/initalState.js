@@ -1,5 +1,6 @@
 const initialState = {
-    adverts: [],
+    data: [],
+    requests: {},
     user: null,
     searchPhrase: ""
 };
