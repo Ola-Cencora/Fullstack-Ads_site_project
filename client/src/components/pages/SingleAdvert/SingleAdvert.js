@@ -1,4 +1,4 @@
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Modal } from "react-bootstrap";
 import styles from "./SingleAdvert.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { deleteAdvertRequest, getRequests } from "../../../redux/advertsRedux";
@@ -19,6 +19,7 @@ const SingleAdvert = () => {
   const [advertData, setAdvert] = useState(null);
   const [advertExists, setAdvertExists] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const requests = useSelector(getRequests);
   const userLogged = useSelector(getUser);
@@ -74,69 +75,84 @@ const SingleAdvert = () => {
     dispatch(deleteAdvertRequest(advertId));
     navigate("/");
   };
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
 
   const formattedDate = new Date(advertData.date).toLocaleDateString();
 
   return (
-    <Col md={9} className="mx-auto">
-      {requests["app/adverts/DATA_ADVERTS"] &&
-        requests["app/adverts/DATA_ADVERTS"].pending && <LoadingSpinner />}
-      {requests["app/adverts/DATA_ADVERTS"] &&
-        requests["app/adverts/DATA_ADVERTS"].error && (
-          <p>Ups... something went wrong :( Try again later</p>
-        )}
-      {requests["app/adverts/DATA_ADVERTS"] &&
-        requests["app/adverts/DATA_ADVERTS"].success && (
-          <Card className={styles.advertCard}>
-            <Card.Img
-              variant="top"
-              src={IMGS_URL + advertData.img}
-              alt={advertData.title}
-              className={styles.img}
-            />
-            <Card.Body>
-              <Card.Title>{advertData.title}</Card.Title>
-              <Card.Title>{advertData.price} $</Card.Title>
-              <Card.Text className="mb-1">{advertData.location}</Card.Text>
-              <Card.Text className="text-muted">
-                <small>{formattedDate}</small>
-              </Card.Text>
-              <Card.Text className="my-4">{advertData.text}</Card.Text>
-              <Row className={styles.row}>
-                <Col>
-                  <img
-                    src={IMGS_URL + advertData.user.avatar}
-                    alt="user_avatar"
-                    className={styles.avatarImg}
-                  />
-                </Col>
-                <Col className="mt-2">
-                  <small>{advertData.user.login}</small>
-                </Col>
-                <Col>
-                  <small>{advertData.user.phone}</small>
-                </Col>
-              </Row>
-              {userLogged && userLogged.user._id === advertData.user._id ? (
-                <Row>
-                  <Col className="text-end">
-                    <Link className="mx-1" to={`/edit/${advertId}`}>
-                      <Button color="warm-main" content="edit" />
-                    </Link>
-                    <Button
-                      onClick={handleDelete}
-                      color="warm-main"
-                      content="delete"
+    <>
+      <Col md={9} className="mx-auto">
+        {requests["app/adverts/DATA_ADVERTS"] &&
+          requests["app/adverts/DATA_ADVERTS"].pending && <LoadingSpinner />}
+        {requests["app/adverts/DATA_ADVERTS"] &&
+          requests["app/adverts/DATA_ADVERTS"].error && (
+            <p>Ups... something went wrong :( Try again later</p>
+          )}
+        {requests["app/adverts/DATA_ADVERTS"] &&
+          requests["app/adverts/DATA_ADVERTS"].success && (
+            <Card className={styles.advertCard}>
+              <Card.Img
+                variant="top"
+                src={IMGS_URL + advertData.img}
+                alt={advertData.title}
+                className={styles.img}
+              />
+              <Card.Body>
+                <Card.Title>{advertData.title}</Card.Title>
+                <Card.Title>{advertData.price} $</Card.Title>
+                <Card.Text className="mb-1">{advertData.location}</Card.Text>
+                <Card.Text className="text-muted">
+                  <small>{formattedDate}</small>
+                </Card.Text>
+                <Card.Text className="my-4">{advertData.text}</Card.Text>
+                <Row className={styles.row}>
+                  <Col>
+                    <img
+                      src={IMGS_URL + advertData.user.avatar}
+                      alt="user_avatar"
+                      className={styles.avatarImg}
                     />
                   </Col>
+                  <Col className="mt-2">
+                    <small>{advertData.user.login}</small>
+                  </Col>
+                  <Col>
+                    <small>{advertData.user.phone}</small>
+                  </Col>
                 </Row>
-              ) : (
-                ""
-              )}
-            </Card.Body>
-          </Card>
-        )}
-    </Col>
+                {userLogged && userLogged.user.id === advertData.user._id ? (
+                  <Row>
+                    <Col className="text-end">
+                      <Link className="mx-1" to={`/edit/${advertId}`}>
+                        <Button color="warm-main" content="edit" />
+                      </Link>
+                      <Button
+                        onClick={handleShow}
+                        color="warm-main"
+                        content="delete"
+                      />
+                    </Col>
+                  </Row>
+                ) : (
+                  ""
+                )}
+              </Card.Body>
+            </Card>
+          )}
+      </Col>
+
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Hey!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body> Are you sure you want to delete this advert?</Modal.Body>
+        <Modal.Footer>
+          <Button color="warm-main" onClick={handleDelete} content="delete" />
+          <Button color="cool-main" onClick={handleClose} content="nope" />
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
