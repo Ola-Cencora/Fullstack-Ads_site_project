@@ -14,11 +14,13 @@ import Logout from "./components/pages/Logout/Logout";
 import { fetchUser } from "./redux/usersRedux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { fetchAdverts } from "./redux/advertsRedux";
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchAdverts());
     dispatch(fetchUser());
   }, [dispatch]);
 

@@ -1,22 +1,11 @@
 import SearchForm from "../../features/SearchForm/SearchForm";
 import AdvertSummary from "../../common/AdvertSummary/AdvertSummary";
-import {
-  getAllAdverts,
-  fetchAdverts,
-  getRequests,
-} from "../../../redux/advertsRedux";
+import { getAllAdverts, getRequests } from "../../../redux/advertsRedux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import { Row, Spinner } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { Row } from "react-bootstrap";
+import LoadingSpinner from "../../common/LoadingSpinner/LoadingSpinner";
 
 const AdvertsList = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAdverts());
-  }, [dispatch]);
-
   const requests = useSelector(getRequests);
   const adverts = useSelector(getAllAdverts);
   const sortedAdverts = [...adverts].sort(
@@ -27,11 +16,7 @@ const AdvertsList = () => {
     <>
       <SearchForm />
       {requests["app/adverts/DATA_ADVERTS"] &&
-        requests["app/adverts/DATA_ADVERTS"].pending && (
-          <Spinner animation="border" className="d-flex mx-auto my-5">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        )}
+        requests["app/adverts/DATA_ADVERTS"].pending && <LoadingSpinner />}
       {requests["app/adverts/DATA_ADVERTS"] &&
         requests["app/adverts/DATA_ADVERTS"].error && (
           <p>Ups... something went wrong :( Try again later</p>
