@@ -1,4 +1,4 @@
-import { Form, Alert, Spinner } from "react-bootstrap";
+import { Form, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { API_URL } from "../../../config";
 import { useDispatch } from "react-redux";
@@ -6,6 +6,7 @@ import { logIn } from "../../../redux/usersRedux";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "../../common/PageTitle/PageTitle";
 import Button from "../../common/Button/Button";
+import LoadingSpinner from "../../common/LoadingSpinner/LoadingSpinner";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -75,11 +76,7 @@ const Login = () => {
           <p>Login or password are incorrect</p>
         </Alert>
       )}
-      {status === "loading" && (
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">loading...</span>
-        </Spinner>
-      )}
+      {status === "loading" && <LoadingSpinner />}
       <Form.Group className="mb-3" controlId="formLogin">
         <Form.Label>login</Form.Label>
         <Form.Control

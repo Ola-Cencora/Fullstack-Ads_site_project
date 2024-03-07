@@ -1,8 +1,10 @@
-import { Form, Alert, Spinner } from "react-bootstrap";
+import { Form, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { API_URL } from "../../../config";
 import PageTitle from "../../common/PageTitle/PageTitle";
 import Button from "../../common/Button/Button";
+import LoadingSpinner from "../../common/LoadingSpinner/LoadingSpinner";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [login, setLogin] = useState("");
@@ -53,6 +55,9 @@ const Register = () => {
         <Alert variant="success">
           <Alert.Heading>Success!</Alert.Heading>
           <p>You have been successfully registered! You can now log in</p>
+          <Link to="/login">
+            <Button color="warm-main" content="go to sign in page" />
+          </Link>
         </Alert>
       )}
       {status === "serverError" && (
@@ -73,11 +78,7 @@ const Register = () => {
           <p>You have to use other login</p>
         </Alert>
       )}
-      {status === "loading" && (
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">loading...</span>
-        </Spinner>
-      )}
+      {status === "loading" && <LoadingSpinner />}
       <Form.Group className="mb-3" controlId="formLogin">
         <Form.Label>login</Form.Label>
         <Form.Control
