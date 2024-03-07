@@ -37,23 +37,19 @@ const Navigation = () => {
   return (
     <Navbar expanded={expanded} expand="lg" className={styles.navigation}>
       <Container>
-        <Navbar.Brand className="me-auto mx-2">
-          Give me your advert!
-        </Navbar.Brand>
-        <Navbar.Toggle
-          onClick={() => setExpanded(expanded ? false : "expanded")}
-          aria-controls="responsive-navbar-nav"
-        />
-        <Navbar.Collapse className="justify-content-end">
-          <Nav className="ms-auto mx-2">
-            <Nav.Link onClick={() => setExpanded(false)} as={NavLink} to="/">
-              Home
-            </Nav.Link>
-            {signOutLink}
-            {signInLinks}
-            {newAdvertButton}
-          </Nav>
-        </Navbar.Collapse>
+        <Link className="text-decoration-none" to="/">
+          <Navbar.Brand className="me-auto mx-2">
+            Give me your advert!
+          </Navbar.Brand>
+        </Link>
+        <Nav className={styles.navigationLinks}>
+          <Nav.Link onClick={() => setExpanded(false)} as={NavLink} to="/">
+            Home
+          </Nav.Link>
+          {signOutLink}
+          {signInLinks}
+          {newAdvertButton}
+        </Nav>
       </Container>
     </Navbar>
   );

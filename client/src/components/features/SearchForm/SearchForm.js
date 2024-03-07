@@ -24,7 +24,7 @@ const SearchForm = () => {
       onSubmit={handleSearch}
       className={clsx("d-flex justify-content-center", styles.search)}
     >
-      <Row className="g-1 d-flex align-items-center">
+      <Row className="g-1 align-items-center">
         <Col sm={12} lg={8}>
           <Form.Control
             className={styles.form}
@@ -34,7 +34,7 @@ const SearchForm = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </Col>
-        <Col sm={12} lg={4}>
+        <Col sm={12} lg={4} className="text-center">
           <Button type="submit" color="cool-main" content="search" />
         </Col>
       </Row>
