@@ -2,7 +2,7 @@ import styles from "./Button.module.scss";
 import PropTypes from "prop-types";
 
 const Button = ({ content, color, onClick }) => {
-  let buttonColor = "";
+  let buttonColor = styles.button;
 
   if (color === "warm-cool") {
     buttonColor = styles['button--warmCool'];
@@ -21,7 +21,7 @@ const Button = ({ content, color, onClick }) => {
 
 Button.propTypes = {
   content: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(["warm-cool", "cool-main", "warm-main"]),
+  color: PropTypes.oneOf(["warm-cool", "cool-main", "warm-main"]).isRequired,
   onClick: PropTypes.func,
 };
 
