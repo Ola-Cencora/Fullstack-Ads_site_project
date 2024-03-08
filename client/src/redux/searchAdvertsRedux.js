@@ -1,6 +1,6 @@
 //selectors
 export const searchAdvert = ({ adverts, searchPhrase }) =>
-  adverts.filter(advert => advert.title.toLowerCase().includes(searchPhrase.toLowerCase()));
+  adverts.data.filter(advert => advert.title.toLowerCase().includes(searchPhrase.toLowerCase()));
 
 //actions
 const createActionName = actionName => `app/searchPhrase/${actionName}`;
