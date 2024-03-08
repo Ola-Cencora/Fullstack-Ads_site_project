@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { getUser } from "../../../redux/usersRedux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import Button from "../../common/Button/Button";
+import clsx from "clsx";
 
 const Navigation = () => {
   const userLogged = useSelector(getUser);
@@ -42,7 +43,7 @@ const Navigation = () => {
             Give me your advert!
           </Navbar.Brand>
         </Link>
-        <Nav className={styles.navigationLinks}>
+        <Nav className={clsx("d-flex flex-row", styles.navigation__links)}>
           <Nav.Link onClick={() => setExpanded(false)} as={NavLink} to="/">
             Home
           </Nav.Link>

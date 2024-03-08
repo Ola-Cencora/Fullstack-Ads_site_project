@@ -5,13 +5,13 @@ const Button = ({ content, color, onClick }) => {
   let buttonColor = "";
 
   if (color === "warm-cool") {
-    buttonColor = styles.buttonWarmCool;
+    buttonColor = styles['button--warmCool'];
   } else if (color === "cool-main") {
-    buttonColor = styles.buttonCoolMain;
+    buttonColor = styles['button--coolMain'];
   } else if (color === "warm-main") {
-    buttonColor = styles.buttonWarmMain;
+    buttonColor = styles['button--warmMain'];
   }
-
+  
   return (
     <button className={buttonColor} onClick={onClick}>
       {content}

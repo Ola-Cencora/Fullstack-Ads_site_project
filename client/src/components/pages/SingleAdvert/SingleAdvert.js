@@ -91,12 +91,12 @@ const SingleAdvert = () => {
           )}
         {requests["app/adverts/DATA_ADVERTS"] &&
           requests["app/adverts/DATA_ADVERTS"].success && (
-            <Card className={styles.advertCard}>
+            <Card className={styles.card}>
               <Card.Img
                 variant="top"
                 src={IMGS_URL + advertData.img}
                 alt={advertData.title}
-                className={styles.img}
+                className={styles.card__img}
               />
               <Card.Body>
                 <Card.Title>{advertData.title}</Card.Title>
@@ -106,12 +106,12 @@ const SingleAdvert = () => {
                   <small>{formattedDate}</small>
                 </Card.Text>
                 <Card.Text className="my-4">{advertData.text}</Card.Text>
-                <Row className={styles.row}>
+                <Row className={styles.card__details}>
                   <Col>
                     <img
                       src={IMGS_URL + advertData.user.avatar}
                       alt="user_avatar"
-                      className={styles.avatarImg}
+                      className={styles.card__details__img}
                     />
                   </Col>
                   <Col className="mt-2">

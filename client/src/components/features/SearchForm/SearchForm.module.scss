@@ -1,6 +1,8 @@
 @import '../../../styles/settings.scss';
 
-.search .form {
-    border-color: $color-cool;
-    border-radius: $border-radius;
+.searchBar {
+    &__input {
+        border-color: $color-cool;
+        border-radius: $border-radius;
+    }
 }

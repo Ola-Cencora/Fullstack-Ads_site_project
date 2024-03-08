@@ -22,12 +22,12 @@ const SearchForm = () => {
   return (
     <Form
       onSubmit={handleSearch}
-      className={clsx("d-flex justify-content-center", styles.search)}
+      className={clsx("d-flex justify-content-center", styles.searchBar)}
     >
       <Row className="g-1 align-items-center">
         <Col sm={12} lg={8}>
           <Form.Control
-            className={styles.form}
+            className={styles.searchBar__input}
             type="text"
             placeholder="Looking for something?"
             value={search}
