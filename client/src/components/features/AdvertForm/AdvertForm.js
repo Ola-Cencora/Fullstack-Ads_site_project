@@ -40,7 +40,6 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
               maxLength: 50,
             })}
             type="text"
-            data-testid="title"
             placeholder="Enter title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -61,7 +60,6 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
                 pattern: /^[0-9]+$/,
               })}
               type="text"
-              data-testid="price"
               placeholder="Enter price"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
@@ -78,7 +76,6 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
           <Form.Control
             {...register("location", { required: true })}
             type="text"
-            data-testid="location"
             placeholder="Enter location"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
@@ -98,7 +95,6 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
               maxLength: 1000,
             })}
             as="textarea"
-            data-testid="description"
             placeholder="Enter description"
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -115,7 +111,6 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
             {...register("img", imgFieldValidation)}
             onChange={(e) => setImg(e.target.files[0])}
             type="file"
-            data-testid="img"
           />
           {errors.img && (
             <small className="d-block form-text text-danger mt-2">
