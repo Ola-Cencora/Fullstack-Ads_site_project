@@ -32,7 +32,12 @@ const EditAdvert = () => {
       });
   };
 
-  if (!userLogged || !advertData || userLogged.user.id !== advertData.user._id)
+  if (
+    !userLogged ||
+    !advertData ||
+    (userLogged.user.id !== advertData.user._id &&
+      userLogged.user._id !== advertData.user._id)
+  )
     return <Navigate to="/" />;
 
   return (

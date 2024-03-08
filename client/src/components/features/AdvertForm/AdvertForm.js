@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, Col, InputGroup } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import Button from "../../common/Button/Button";
 
 const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
@@ -55,7 +55,10 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
           <InputGroup>
             <InputGroup.Text>$</InputGroup.Text>
             <Form.Control
-              {...register("price", { required: true })}
+              {...register("price", {
+                required: true,
+                pattern: /^[0-9]+$/,
+              })}
               type="text"
               placeholder="Enter price"
               value={price}
@@ -63,7 +66,7 @@ const AdvertForm = ({ action, actionText, isAddAdvert, ...props }) => {
             />
             {errors.price && (
               <small className="d-block form-text text-danger mt-2">
-                Price can't be empty
+                Price can't be empty and have to be a number
               </small>
             )}
           </InputGroup>
@@ -125,6 +128,6 @@ AdvertForm.propTypes = {
   action: PropTypes.func.isRequired,
   actionText: PropTypes.string.isRequired,
   isAddAdvert: PropTypes.bool,
-}
+};
 
 export default AdvertForm;

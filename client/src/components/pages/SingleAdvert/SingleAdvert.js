@@ -121,7 +121,8 @@ const SingleAdvert = () => {
                     <small>{advertData.user.phone}</small>
                   </Col>
                 </Row>
-                {userLogged && userLogged.user.id === advertData.user._id ? (
+                {(userLogged && userLogged.user._id === advertData.user._id) ||
+                (userLogged && userLogged.user.id === advertData.user._id) ? (
                   <Row>
                     <Col className="text-end">
                       <Link className="mx-1" to={`/edit/${advertId}`}>
