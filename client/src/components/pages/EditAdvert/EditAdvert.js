@@ -41,7 +41,7 @@ const EditAdvert = () => {
     return <Navigate to="/" />;
 
   return (
-    <div>
+    <>
       <PageTitle title="Let's edit this advert!" />
       <Col sm={12} lg={6} xl={4} className="mx-auto">
         {status === "success" && (
@@ -58,7 +58,7 @@ const EditAdvert = () => {
         )}
       </Col>
       <AdvertForm action={handleSubmit} actionText="done" {...advertData} />
-    </div>
+    </>
   );
 };
 

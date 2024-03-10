@@ -34,7 +34,7 @@ const AddAdvert = () => {
   if (!userLogged) return <Navigate to="/" />;
 
   return (
-    <div>
+    <>
       <PageTitle title="Let's add a new advert!" />
       <Col sm={12} lg={6} xl={4} className="mx-auto">
         {status === "success" && (
@@ -55,7 +55,7 @@ const AddAdvert = () => {
         actionText="add an advert"
         isAddAdvert={true}
       />
-    </div>
+    </>
   );
 };
 
