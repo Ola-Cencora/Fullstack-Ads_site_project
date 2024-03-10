@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const authMiddleware = require('../utils/authMiddleware');
-const authorMiddleware = require('../utils/authorMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
+const authorMiddleware = require('../middleware/authorMiddleware');
 const imageUpload = require('../utils/imageUpload');
 
 const AdvertController = require('../controllers/adverts.controller');
