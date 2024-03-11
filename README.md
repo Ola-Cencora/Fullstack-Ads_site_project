@@ -34,12 +34,15 @@ To run this project, install it locally using yarn:
 $ git clone https://github.com/Ola-Cencora/Fullstack-Ads_site_project.git
 
 # install dependencies
+# server
+$ npm install
+
+# client
 $ yarn
 
 # run server
-$ yarn start
+$ npm start
 
 # run client
 $ yarn start
-
 ```
