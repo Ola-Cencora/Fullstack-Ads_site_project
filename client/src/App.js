@@ -15,7 +15,7 @@ import { fetchUser } from "./redux/usersRedux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchAdverts } from "./redux/advertsRedux";
-
+//CRs
 const App = () => {
   const dispatch = useDispatch();
 
