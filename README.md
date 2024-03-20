@@ -8,7 +8,7 @@ The feature-oriented frontend is simple, made using Bootstrap. Backed uses Expre
 
 ## Demo
 
-In a moment :)
+[Replit - may take a while :)](https://0fd28488-2b6e-46af-9c83-e95cba0d12e3-00-3o1fb9wppsui4.picard.replit.dev/)
 
 ### Tech Stack
 
